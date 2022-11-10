@@ -19,6 +19,7 @@ public class CustomerRegistration {
 
 		System.out.println("Enter the Password");
 		String password = sc.next();
+		System.out.println();
 
 		UserDao udao = new UserDaoImpl();
 		User u1 = new User();
@@ -26,8 +27,16 @@ public class CustomerRegistration {
 		u1.setEmail(email);
 		u1.setPassword(password);
 
-		String str = udao.CustomerRegistration(u1);
+		String str = udao.customerRegistration(u1);
 		System.out.println(str);
+		
+		System.out.println("=====================");
+		System.out.println();
+		System.out.println("Option 1");
+		System.out.println("Option 2");
+		System.out.println("Option 3");
+		
+		
 	}
 
 }
