@@ -21,8 +21,8 @@ public class DButil {
 		try {
 			conn = DriverManager.getConnection(url, "root", "8860578502");
 			
-			if(conn!=null)
-				System.out.println("Connection established.........................");
+			//if(conn!=null)
+				//System.out.println("Connection established.........................");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
