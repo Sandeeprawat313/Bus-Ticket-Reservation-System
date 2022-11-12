@@ -15,7 +15,7 @@ public class TicketsDaoImpl implements TicketsDao {
 
 	@Override
 	public List<Tickets> bookingData(Tickets tickets) {
-		List<Tickets> list = new ArrayList<>();
+		List<Tickets> list = new ArrayList<>();// thik karo isko ye string return karega
 		try (Connection conn = DButil.provideConnection()) {
 			PreparedStatement ps = conn.prepareStatement("insert into tickets values(?,?,?,?,?,?,?,?,?)");
 
@@ -40,6 +40,68 @@ public class TicketsDaoImpl implements TicketsDao {
 		}
 
 		return list;
+	}
+
+	@Override
+	public List<Tickets> PrintTickets(String referenceID, String email) {
+		List<Tickets> list = new ArrayList<>();
+		try (Connection conn = DButil.provideConnection()) {
+			PreparedStatement ps = conn.prepareStatement("select * from tickets where referenceID = ? AND email = ?");
+
+			ps.setString(1, referenceID);
+			ps.setString(2, email);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				Tickets t1 = new Tickets();
+				t1.setReferenceID(rs.getString("referenceID"));
+				t1.setBid(rs.getInt("bid"));
+				t1.setPassangerName(rs.getString("passangerName"));
+				t1.setPassangerAge(rs.getInt("passangerAge"));
+
+				t1.setDestinationFrom(rs.getString("destinationFrom"));
+				t1.setDestinationTo(rs.getString("destinationTo"));
+				t1.setDeparture(rs.getString("departure"));
+				t1.setArrival(rs.getString("arrival"));
+				t1.setEmail(rs.getString("email"));
+
+				// add to list
+				list.add(t1);
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return list;
+	}
+
+	@Override
+	public List<String> ShowRefID(String email) {
+		List<String> listRefId = new ArrayList<>();
+
+		try (Connection conn = DButil.provideConnection()) {
+			PreparedStatement ps = conn.prepareStatement("select referenceID from tickets where email = ?");
+			ps.setString(1, email);
+
+			ResultSet rs = ps.executeQuery();
+
+			while(rs.next()) {
+				String id = rs.getString("referenceID");
+				if(!listRefId.contains(id)) {
+					listRefId.add(id);
+				}
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return listRefId;
 	}
 
 }

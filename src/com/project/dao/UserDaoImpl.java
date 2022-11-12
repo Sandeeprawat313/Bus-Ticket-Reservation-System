@@ -23,8 +23,7 @@ public class UserDaoImpl implements UserDao {
 
 			int x = ps.executeUpdate();
 			if (x > 0)
-				msg = "Registration successfull\n" + "-------------------------\n" + "\n" + "Welcome "
-						+ user.getUname().toUpperCase() + "\n";
+				msg = "Registration successfull";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

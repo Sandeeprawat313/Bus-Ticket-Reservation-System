@@ -29,14 +29,9 @@ public class CustomerRegistration {
 
 		String str = udao.customerRegistration(u1);
 		System.out.println(str);
-		
-		System.out.println("=====================");
+		System.out.println("Please login using existing customer link");
 		System.out.println();
-		System.out.println("Option 1");
-		System.out.println("Option 2");
-		System.out.println("Option 3");
-		
-		
+
 	}
 
 }
