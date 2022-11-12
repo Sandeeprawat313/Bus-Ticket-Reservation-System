@@ -1,5 +1,6 @@
 package com.project.usecase;
 
+import java.util.List;
 import java.util.Scanner;
 
 import com.project.dao.BusDao;
@@ -47,26 +48,31 @@ public class BookTickets {
 			System.out.println("Invalid only " + bus.getSeatsAvailable() + " tickets are availbale to book");
 		} else {
 			System.out.println("Please share the passanget details");
-			System.out.println("Enter the name of Passanger");
-			String pname = sc.next();
-			System.out.println("Enter the age of the passanger");
-			int age = sc.nextInt();
+//			System.out.println("No of tickets you want to book");
+//			int tickets = sc.nextInt();
+			String refID = bus.getSeatsAvailable() + "" + bus.getBid() + ""+ java.time.LocalDate.now();
+			for(int i=0; i<seat; i++) {
+				System.out.println("Enter the name of Passanger");
+				String pname = sc.next();
+				System.out.println("Enter the age of the passanger");
+				int age = sc.nextInt();
 
-			String refID = bus.getSeatsAvailable() + "" + bus.getBid() + "" + age;
-
-			// save booking details
-			TicketsDao tdao = new TicketsDaoImpl();
-			Tickets t1 = new Tickets();
-			t1.setReferenceID(refID);
-			t1.setBid(bus.getBid());
-			t1.setPassangerName(pname);
-			t1.setPassangerAge(age);
-			t1.setDestinationFrom(bus.getDestinationFrom());
-			t1.setDestinationTo(bus.getDestinationTo());
-			t1.setDeparture(bus.getDeparture());
-			t1.setArrival(bus.getArrival());
-			t1.setEmail("s@123");// hardcode change it
-			tdao.bookingData(t1);
+				
+				
+				// save booking details
+				TicketsDao tdao = new TicketsDaoImpl();
+				Tickets t1 = new Tickets();
+				t1.setReferenceID(refID);
+				t1.setBid(bus.getBid());
+				t1.setPassangerName(pname);
+				t1.setPassangerAge(age);
+				t1.setDestinationFrom(bus.getDestinationFrom());
+				t1.setDestinationTo(bus.getDestinationTo());
+				t1.setDeparture(bus.getDeparture());
+				t1.setArrival(bus.getArrival());
+				t1.setEmail("s@123");// hardcode change it
+				tdao.bookingData(t1);
+			}
 
 			System.out.println("you have booked your tickets");
 			// after successfull booking
@@ -74,7 +80,12 @@ public class BookTickets {
 			update.updateSeats(seat, bid);
 
 			// print ticket details
-			print(t1);
+			
+			TicketsDao t1 = new TicketsDaoImpl();
+			List<Tickets> list = t1.PrintTickets(refID, email);
+			for(Tickets i:list) {
+				System.out.println(i);
+			}
 
 		}
 
