@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.project.dao.UserDao;
 import com.project.dao.UserDaoImpl;
+import com.project.exception.UserException;
 import com.project.model.User;
 
 public class AdminLogin {
@@ -17,11 +18,13 @@ public class AdminLogin {
 		String password = sc.next();
 
 		UserDao uDao = new UserDaoImpl();
-		User user = uDao.userLogin(email, password);
-
-		System.out.println("Welcome " + user.getUname());
-		System.out.println();
-
+		try {
+			User user = uDao.userLogin(email, password);
+			System.out.println("Welcome " + user.getUname());
+			System.out.println();
+		} catch (UserException e) {
+			System.out.println(e.getMessage());
+		}
 
 	}
 

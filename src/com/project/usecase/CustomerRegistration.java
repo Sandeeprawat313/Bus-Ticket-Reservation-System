@@ -4,6 +4,7 @@ import java.util.Scanner;
 
 import com.project.dao.UserDao;
 import com.project.dao.UserDaoImpl;
+import com.project.exception.UserException;
 import com.project.model.User;
 
 public class CustomerRegistration {
@@ -27,10 +28,14 @@ public class CustomerRegistration {
 		u1.setEmail(email);
 		u1.setPassword(password);
 
-		String str = udao.customerRegistration(u1);
-		System.out.println(str);
-		System.out.println("Please login using existing customer link");
-		System.out.println();
+		String str = null;
+		try {
+			str = udao.customerRegistration(u1);
+			System.out.println(str);
+		} catch (UserException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
 
 	}
 

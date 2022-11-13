@@ -5,13 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.project.exception.UserException;
 import com.project.model.User;
 import com.project.utility.DButil;
 
 public class UserDaoImpl implements UserDao {
 
 	@Override
-	public String customerRegistration(User user) {
+	public String customerRegistration(User user) throws UserException {
 		String msg = "Registration failed..";
 
 		try (Connection conn = DButil.provideConnection()) {
@@ -24,9 +25,9 @@ public class UserDaoImpl implements UserDao {
 			int x = ps.executeUpdate();
 			if (x > 0)
 				msg = "Registration successfull";
+
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			msg = e.getMessage();
 		}
 
 		return msg;
@@ -34,7 +35,7 @@ public class UserDaoImpl implements UserDao {
 	}
 
 	@Override
-	public User userLogin(String email, String password) {
+	public User userLogin(String email, String password) throws UserException {
 		User user = null;
 
 		try (Connection conn = DButil.provideConnection()) {
@@ -54,8 +55,11 @@ public class UserDaoImpl implements UserDao {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new UserException(e.getMessage());
+		}
+
+		if (user == null) {
+			throw new UserException("Wrong credentials please try again with the correct username and password");
 		}
 
 		return user;
