@@ -79,8 +79,8 @@ public class App {
 					User user = uDao.userLogin(email, password);
 					System.out.println("Welcome " + user.getUname());
 					System.out.println();
-					System.out.println("1. Check the bus data");
-					System.out.println("2. check the bus data on the basis of starting point and destination");
+					System.out.println("1. Checkout differnt travel listings");
+					System.out.println("2. Checkout travel listing on the basis of starting point and destination");
 					System.out.println("3. Book tickets");
 					System.out.println("4. Check booked tickets");
 					System.out.println("5. LogOut");
@@ -196,11 +196,11 @@ public class App {
 									System.out.println("Invalid only " + bus.getSeatsAvailable()
 											+ " tickets are availbale to book");
 								} else {
-									System.out.println("Please share the passanget details");
+									System.out.println("Please share the passanger details");
 									String refID = bus.getSeatsAvailable() + "" + bus.getBid() + ""
 											+ java.time.LocalDate.now();
 									for (int i = 0; i < seat; i++) {
-										System.out.println("Enter the name of Passanger");
+										System.out.println("Enter the name of Passanger " + (i + 1));
 										String pname = sc.next();
 										System.out.println("Enter the age of the passanger");
 										int age = sc.nextInt();
@@ -361,8 +361,8 @@ public class App {
 						default:
 							System.out.println("Invalid option");
 						}
-						System.out.println("1. Check the bus data");
-						System.out.println("2. check the bus data on the basis of starting point and destination");
+						System.out.println("1. Checkout differnt travel listings");
+						System.out.println("2. Checkout travel listing on the basis of starting point and destination");
 						System.out.println("3. Book tickets");
 						System.out.println("4. Check booked tickets");
 						System.out.println("5. LogOut");
@@ -477,7 +477,7 @@ public class App {
 						} catch (BusException e) {
 							System.out.println(e.getMessage());
 						}
-						
+
 						break;
 					default:
 					}
