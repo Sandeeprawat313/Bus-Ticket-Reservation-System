@@ -17,13 +17,13 @@ The main objective of this Bus Ticket Reservation System project is to build a s
 <h3> User Functionalities </h3>
 * User Registration.<br>
 * User login.<br>
-* User Registration.<br>
 * Checking of available rotues.<br>
 * Ticket booking<br>
 * Checking of booket trickets<br>
 
 
 <h3> Admin Functionalities </h3>
+* Admin login.<br>
 * To list all the traval details.<br>
 * To check the listed travel routes.<br>
 
