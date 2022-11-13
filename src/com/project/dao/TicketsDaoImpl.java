@@ -15,7 +15,7 @@ import com.project.utility.DButil;
 public class TicketsDaoImpl implements TicketsDao {
 
 	@Override
-	public List<Tickets> bookingData(Tickets tickets)throws TicketException {
+	public List<Tickets> bookingData(Tickets tickets) throws TicketException {
 		List<Tickets> list = new ArrayList<>();// thik karo isko ye string return karega
 		try (Connection conn = DButil.provideConnection()) {
 			PreparedStatement ps = conn.prepareStatement("insert into tickets values(?,?,?,?,?,?,?,?,?)");
@@ -32,12 +32,16 @@ public class TicketsDaoImpl implements TicketsDao {
 
 			int x = ps.executeUpdate();
 			if (x > 0) {
-				System.out.println("Updation successfull.............");
+				// System.out.println("Updation successfull.............");
 			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		if (list.isEmpty()) {
+			throw new TicketException("Ticket booking failed please try again");
 		}
 
 		return list;
