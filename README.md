@@ -27,3 +27,9 @@ The main objective of this Bus Ticket Reservation System project is to build a s
 * To list all the traval details.<br>
 * To check the listed travel routes.<br>
 
+
+<h1 align = "center"> ER Diagram </h1>
+<div id="header" align="center">
+  <img src="https://raw.githubusercontent.com/Sandeeprawat313/Bus-Ticket-Reservation-System/main/ER%20-%20Diagram.png" width="90%" height = "350px"/>
+</div>
+
