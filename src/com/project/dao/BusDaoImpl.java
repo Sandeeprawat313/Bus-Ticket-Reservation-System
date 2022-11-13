@@ -7,13 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.exception.BusException;
 import com.project.model.Bus;
 import com.project.utility.DButil;
 
 public class BusDaoImpl implements BusDao {
 
 	@Override
-	public String addBusDetails(Bus bus) {
+	public String addBusDetails(Bus bus) throws BusException {
 		String msg = "Insertion failed";
 
 		try (Connection conn = DButil.provideConnection()) {
@@ -30,15 +31,16 @@ public class BusDaoImpl implements BusDao {
 			if (x > 0)
 				msg = "insertion successfull";
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new BusException(e.getMessage());
+		} catch (Exception e1) {
+			throw new BusException(e1.getMessage());
 		}
 
 		return msg;
 	}
 
 	@Override
-	public List<Bus> showALLTravelSchedule() {
+	public List<Bus> showALLTravelSchedule() throws BusException {
 		List<Bus> list = new ArrayList<>();
 
 		try (Connection conn = DButil.provideConnection()) {
@@ -58,20 +60,26 @@ public class BusDaoImpl implements BusDao {
 			}
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		if (list.isEmpty()) {
+			throw new BusException("No Route available");
 		}
 
 		return list;
 	}
 
 	@Override
-	public List<Bus> showTravelDetailsRoute(String startingPoint, String destination) {
+	public List<Bus> showTravelDetailsRoute(String startingPoint, String destination) throws BusException {
 		List<Bus> list = new ArrayList<>();
 
 		try (Connection conn = DButil.provideConnection()) {
-			PreparedStatement ps = conn
-					.prepareStatement("Select * from bus where destinationFrom = ? AND destinationTo = ?");
+			PreparedStatement ps = conn.prepareStatement("Select\r\n" + "bid,\r\n" + "destinationFrom,\r\n"
+					+ "destinationTo,\r\n"
+					+ "CONCAT(DATE_FORMAT( DATE(departure),\"%d%b%Y\"),\" \", TIME_FORMAT(TIME(departure), \"%h:%i:%s%p\"))departure,\r\n"
+					+ "CONCAT(DATE_FORMAT( DATE(arrival),\"%d%b%Y\"),\" \", TIME_FORMAT(TIME(arrival), \"%h:%i:%s%p\")) arrival,\r\n"
+					+ "seatsAvailable \r\n" + "from bus\r\n" + "where destinationFrom = ? AND destinationTo = ?;\r\n"
+					+ "");
 
 			ps.setString(1, startingPoint);
 			ps.setString(2, destination);
@@ -91,14 +99,19 @@ public class BusDaoImpl implements BusDao {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+
+		if (list.isEmpty()) {
+			throw new BusException("No bus available for this route");
 		}
 
 		return list;
 	}
 
 	@Override
-	public Bus ShowDetailsAsPerbid(int a) {
+	public Bus ShowDetailsAsPerbid(int a) throws BusException {
 		Bus bus = null;
 		try (Connection conn = DButil.provideConnection()) {
 			PreparedStatement ps = conn.prepareStatement("Select * from bus where bid = ?");
@@ -119,7 +132,11 @@ public class BusDaoImpl implements BusDao {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+		if (bus == null) {
+			throw new BusException("Please enter the correct bus id");
 		}
 
 		return bus;
@@ -133,12 +150,12 @@ public class BusDaoImpl implements BusDao {
 					.prepareStatement("update bus set seatsAvailable = seatsAvailable - ? where bid = ?");
 			ps.setInt(1, seat);
 			ps.setInt(2, bid);
-			
+
 			int x = ps.executeUpdate();
-			if(x > 0 ) {
-				System.out.println("Updation sucessfull");
+			if (x > 0) {
+				// System.out.println("Updation sucessfull");
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

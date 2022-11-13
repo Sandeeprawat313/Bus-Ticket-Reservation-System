@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.project.exception.TicketException;
 import com.project.model.Bus;
 import com.project.model.Tickets;
 import com.project.utility.DButil;
@@ -14,7 +15,7 @@ import com.project.utility.DButil;
 public class TicketsDaoImpl implements TicketsDao {
 
 	@Override
-	public List<Tickets> bookingData(Tickets tickets) {
+	public List<Tickets> bookingData(Tickets tickets)throws TicketException {
 		List<Tickets> list = new ArrayList<>();// thik karo isko ye string return karega
 		try (Connection conn = DButil.provideConnection()) {
 			PreparedStatement ps = conn.prepareStatement("insert into tickets values(?,?,?,?,?,?,?,?,?)");
@@ -43,7 +44,7 @@ public class TicketsDaoImpl implements TicketsDao {
 	}
 
 	@Override
-	public List<Tickets> PrintTickets(String referenceID, String email) {
+	public List<Tickets> PrintTickets(String referenceID, String email) throws TicketException {
 		List<Tickets> list = new ArrayList<>();
 		try (Connection conn = DButil.provideConnection()) {
 			PreparedStatement ps = conn.prepareStatement("select * from tickets where referenceID = ? AND email = ?");
@@ -73,7 +74,12 @@ public class TicketsDaoImpl implements TicketsDao {
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.getMessage();
+
+		}
+
+		if (list.isEmpty()) {
+			throw new TicketException("Reference id is not valid");
 		}
 
 		return list;
@@ -89,9 +95,9 @@ public class TicketsDaoImpl implements TicketsDao {
 
 			ResultSet rs = ps.executeQuery();
 
-			while(rs.next()) {
+			while (rs.next()) {
 				String id = rs.getString("referenceID");
-				if(!listRefId.contains(id)) {
+				if (!listRefId.contains(id)) {
 					listRefId.add(id);
 				}
 			}
