@@ -216,7 +216,7 @@ public class App {
 										t1.setDestinationTo(bus.getDestinationTo());
 										t1.setDeparture(bus.getDeparture());
 										t1.setArrival(bus.getArrival());
-										t1.setEmail(email);// hardcode change it
+										t1.setEmail(email);
 										try {
 											tdao.bookingData(t1);
 										} catch (TicketException e) {
@@ -297,8 +297,10 @@ public class App {
 							if (listRefId.isEmpty()) {
 								System.out.println("No tickets found");
 							} else {
+								int counter = 1;
+								System.out.println("Refernce ids:");
 								for (String s : listRefId) {
-									System.out.println(s);
+									System.out.println(counter++ +". "+s);
 								}
 
 								// Serach on the basis of ref id

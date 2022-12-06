@@ -40,9 +40,9 @@ public class TicketsDaoImpl implements TicketsDao {
 			// e.printStackTrace();
 			System.out.println(e.getMessage());
 		}
-		if (list.isEmpty()) {
-			throw new TicketException("Ticket booking failed please try again");
-		}
+//		if (list.isEmpty()) {
+//			throw new TicketException("Ticket booking failed please try again");
+//		}
 
 		return list;
 	}

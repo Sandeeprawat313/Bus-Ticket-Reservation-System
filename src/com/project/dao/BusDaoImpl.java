@@ -44,7 +44,13 @@ public class BusDaoImpl implements BusDao {
 		List<Bus> list = new ArrayList<>();
 
 		try (Connection conn = DButil.provideConnection()) {
-			PreparedStatement ps = conn.prepareStatement("Select * from bus");
+			//PreparedStatement ps = conn.prepareStatement("Select * from bus");
+			PreparedStatement ps = conn.prepareStatement("Select\r\n" + "bid,\r\n" + "destinationFrom,\r\n"
+					+ "destinationTo,\r\n"
+					+ "CONCAT(DATE_FORMAT( DATE(departure),\"%d%b%Y\"),\" \", TIME_FORMAT(TIME(departure), \"%h:%i:%s%p\"))departure,\r\n"
+					+ "CONCAT(DATE_FORMAT( DATE(arrival),\"%d%b%Y\"),\" \", TIME_FORMAT(TIME(arrival), \"%h:%i:%s%p\")) arrival,\r\n"
+					+ "seatsAvailable \r\n" + "from bus\r\n");
+			
 
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
